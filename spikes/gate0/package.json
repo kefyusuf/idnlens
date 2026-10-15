@@ -1,0 +1,11 @@
+{
+  "name": "idnlens-gate0-dependency-spike",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Isolated Gate 0 dependency behavior experiment; not the M0 runtime",
+  "dependencies": {
+    "tr46": "7.0.0",
+    "tldts": "7.4.18"
+  }
+}
