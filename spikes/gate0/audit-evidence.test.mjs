@@ -57,6 +57,8 @@ test('any reported vulnerability is a review blocker; never auto-fix', () => {
 test('network/API errors, unsupported JSON and inconsistent counts fail closed', () => {
   for (const body of [
     { error: { code: 'E403', summary: 'registry returned 403' } },
+    { ...fixture(), vulnerabilities: undefined },
+    { ...fixture(), vulnerabilities: { unexpected: { severity: 'high' } } },
     {},
     { auditReportVersion: 1, metadata: fixture().metadata },
     { auditReportVersion: 2, metadata: { vulnerabilities: {} } },
