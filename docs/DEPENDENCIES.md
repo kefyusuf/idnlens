@@ -28,13 +28,13 @@ For exact `resolved` tarball URLs and complete SHA-512 strings, inspect **the lo
 | Unicode Script/Script_Extensions | https://www.unicode.org/Public/18.0.0/ucd/ | **Exact raw checksums pinned** for `Scripts.txt` and `ScriptExtensions.txt`. Data transforms and bundle plan not yet selected. |
 | Public Suffix List | https://publicsuffix.org/list/public_suffix_list.dat | **Pinned source revision:** `publicsuffix/list@3929462652695bad04f0a27afb600974014a3c8b` and raw SHA-256 in `spikes/gate0/psl-sources.json`. `tldts@7.4.18` tagged npm trie bytes match its tagged Git source; generator replay not yet verified. |
 | PSL license | MPL-2.0 in pinned upstream source | **Source license identified.** Generated-data redistribution and notice obligations still need review before production packaging. |
-| UTS #46 implementation data | `tr46@7.0.0` locked artifact | determine Unicode/UTS #46 dataset version and compatibility; do not infer it from contemporary UTS #39 |
+| UTS #46 implementation data | `tr46@7.0.0` / Unicode 18.0.0 / UTS #46 Revision 36 | **Mapping data verified:** pinned official `IdnaMappingTable.txt` and tagged generator reproduce the published npm `mappingTable.json` byte-for-byte. See `spikes/gate0/tr46-sources.json` and `docs/gates/GATE0-TR46-MAPPING-PROVENANCE.md`. **Generated regex provenance remains open.** |
 
 Do **not** download upstream `latest` data implicitly or add a runtime feed. This table records prospective sources, not a selected or bundled data version.
 
 ## Explicit remaining gates
 
-1. Unicode 18.0 raw source files and the PSL snapshot have pinned source SHA-256 hashes (see `docs/gates/GATE0-UNICODE-SOURCES.md` and `docs/gates/GATE0-PSL-PROVENANCE.md`). Still audit generator/repackaging transformations and notices before production.
+1. Unicode 18.0 security files, the PSL snapshot, and TR46 mapping table now have pinned SHA-256 records. Still verify TR46 generated regex inputs/replay, PSL generation and relevant redistribution notices before production.
 2. Verify transitive licenses, Unicode-3.0 redistribution notices and package maintenance/security posture.
 3. Measure minified and uncompressed browser-oriented bundle impact using a reproducible method; no extension scaffold is authorized.
 4. Review ADR-0002 and ADR-0003 against that evidence; they remain **Proposed** until an explicit decision.
