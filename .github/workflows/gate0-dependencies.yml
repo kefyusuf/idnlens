@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - 'spike/gate0-*'
+      - 'decision/gate0-adr-*'
 
 permissions:
   contents: read
