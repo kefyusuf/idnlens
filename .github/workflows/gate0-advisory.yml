@@ -1,0 +1,42 @@
+name: Gate 0 npm security review
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-advisory-*'
+
+permissions:
+  contents: read
+
+jobs:
+  npm-advisory-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Install exact Gate 0 lockfiles, without lifecycle scripts
+        run: |
+          npm ci --prefix spikes/gate0 --ignore-scripts --no-audit --no-fund
+          npm ci --prefix spikes/gate0/regex-replay --ignore-scripts --no-audit --no-fund
+      - name: Test fail-closed audit policy and lockfile identity
+        run: node --test spikes/gate0/audit-evidence.test.mjs
+      - name: Query live npm advisories for both fixed dependency graphs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for graph in main regex; do
+            if [ "$graph" = main ]; then dir="spikes/gate0"; else dir="spikes/gate0/regex-replay"; fi
+            set +e
+            (cd "$dir" && npm audit --json --audit-level=low --registry=https://registry.npmjs.org/) > "$RUNNER_TEMP/$graph-audit.json" 2> "$RUNNER_TEMP/$graph-audit.stderr"
+            audit_exit=$?
+            set -e
+            printf 'npm audit graph=%s exit=%s\n' "$graph" "$audit_exit"
+            node spikes/gate0/audit-cli.mjs "$graph" "$RUNNER_TEMP/$graph-audit.json" "$audit_exit"
+          done
