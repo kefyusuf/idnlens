@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches:
+      - main
       - 'spike/gate0-*'
 
 permissions:
@@ -26,5 +27,5 @@ jobs:
       - name: Print resolved dependency tree
         working-directory: spikes/gate0
         run: npm ls --all
-      - name: Execute original Node baseline and candidate tests
-        run: node --test spikes/gate0/*.test.mjs
+      - name: Execute candidate comparison tests
+        run: node --test spikes/gate0/idna-dependencies.test.mjs
