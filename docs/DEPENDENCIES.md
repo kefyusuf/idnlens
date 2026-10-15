@@ -1,0 +1,42 @@
+# Gate 0 dependency and data provenance register
+
+**Status:** Working record; not an approved production dependency list.  
+**Last reviewed:** 2026-10-15  
+**Scope:** Gate 0 only. Do not assume that a fixed npm version pins upstream Unicode or PSL source revisions.
+
+## Reproducible npm candidate graph
+
+The isolated `spikes/gate0/package-lock.json` is an npm lockfile v3 produced on Node 22.16.0. The CI installs it using `npm ci --ignore-scripts --no-audit --no-fund`, then runs targeted dependency and provenance tests.
+
+| Package | Version | Role | License claim | Integrity |
+|---|---|---|---|---|
+| `tr46` | `7.0.0` | UTS #46 processing candidate | MIT (source/package claim; independent notice audit pending) | SHA-512 in committed lock |
+| `punycode` | `2.3.1` | transitive dependency of tr46 | license audit pending | SHA-512 in committed lock |
+| `tldts` | `7.4.18` | PSL resolver candidate | MIT (npm package claims) | SHA-512 in committed lock |
+| `tldts-core` | `7.4.18` | transitive dependency of tldts | license audit pending | SHA-512 in committed lock |
+
+For exact `resolved` tarball URLs and complete SHA-512 strings, inspect **the lockfile itself**. There is no separate copied digest inventory to keep in sync. All versions, including transitive versions, are tested against an explicit allowlist in `dependency-provenance.test.mjs`.
+
+**Reproducibility boundary:** An integrity-checked registry install means fixed npm packages; it does not attest maintainer identity, eliminate registry availability risk, guarantee rebuild equivalence across all platforms, or establish the age of bundled source data. Runtime analysis remains offline; installation uses npm registry access.
+
+## Standards and source-data candidates — NOT PINNED YET
+
+| Source | Current reference / intent | Provenance work remaining |
+|---|---|---|
+| Unicode UTS #39 | Revision 34 / Unicode 18.0.0, https://www.unicode.org/reports/tr39/tr39-34.html | select immutable `18.0.0/security/` and UCD scripts files, download, SHA-256, license and use case verification |
+| Unicode security data | https://www.unicode.org/Public/18.0.0/security/ | hash exact `confusables.txt`, `IdentifierStatus.txt` and any required data; do not use `latest/` at build/runtime |
+| Unicode Script/Script_Extensions | https://www.unicode.org/Public/18.0.0/ucd/ | hash chosen `Scripts.txt` / `ScriptExtensions.txt` and record transforms |
+| Public Suffix List | https://publicsuffix.org/list/public_suffix_list.dat | identify exact source snapshot or verifiable generated `tldts` rules fingerprint; document ICANN/private policy and source revision |
+| PSL license | MPL-2.0 header in the authoritative source | inspect redistribution obligations and notices for generated/bundled data |
+| UTS #46 implementation data | `tr46@7.0.0` locked artifact | determine Unicode/UTS #46 dataset version and compatibility; do not infer it from contemporary UTS #39 |
+
+Do **not** download upstream `latest` data implicitly or add a runtime feed. This table records prospective sources, not a selected or bundled data version.
+
+## Explicit remaining gates
+
+1. Record source snapshot revisions, hashes and legal notices for Unicode and PSL material.
+2. Verify transitive licenses and package maintenance/security posture.
+3. Measure minified and uncompressed browser-oriented bundle impact using a reproducible method; no extension scaffold is authorized.
+4. Review ADR-0002 and ADR-0003 against that evidence; they remain **Proposed** until an explicit decision.
+
+Any upgrade to the four-package lock graph requires a dedicated reviewed PR, an updated expected graph in the tests, and re-running all Gate 0 checks.

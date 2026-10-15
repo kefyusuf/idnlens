@@ -21,11 +21,11 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22.16.0'
-      - name: Install exact-version spike dependencies (no scripts)
+      - name: Reproducible install from committed lockfile (no scripts)
         working-directory: spikes/gate0
-        run: npm install --ignore-scripts --no-audit --no-fund --no-package-lock
-      - name: Print resolved dependency tree
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Print locked dependency tree
         working-directory: spikes/gate0
         run: npm ls --all
-      - name: Execute candidate comparison tests
-        run: node --test spikes/gate0/idna-dependencies.test.mjs
+      - name: Run dependency and provenance tests
+        run: node --test spikes/gate0/idna-dependencies.test.mjs spikes/gate0/dependency-provenance.test.mjs
