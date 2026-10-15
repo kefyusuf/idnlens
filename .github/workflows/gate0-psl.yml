@@ -1,0 +1,45 @@
+name: Gate 0 PSL source provenance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-psl-*'
+
+permissions:
+  contents: read
+
+jobs:
+  psl-source-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Install pinned Gate 0 npm dependency graph
+        working-directory: spikes/gate0
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Fetch pinned upstream tag, PSL gitlink, and raw source bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROOF_DIR="$RUNNER_TEMP/idnlens-psl"
+          mkdir -p "$PROOF_DIR"
+          echo "IDNLENS_PSL_PROOF_DIR=$PROOF_DIR" >> "$GITHUB_ENV"
+          fetch() {
+            curl --fail --silent --show-error --location --retry 2 --max-time 45 \
+              --proto '=https' --tlsv1.2 "$1" --output "$2"
+          }
+          fetch "https://api.github.com/repos/remusao/tldts/git/ref/tags/v7.4.18" "$PROOF_DIR/tag-ref.json"
+          fetch "https://api.github.com/repos/remusao/tldts/git/tags/0d706a673d79aefcd95560a3f2f8d744071e6bb0" "$PROOF_DIR/tag-object.json"
+          fetch "https://api.github.com/repos/remusao/tldts/git/trees/ca4454e0b0c4d4caed9d32fc62ee5d8d255660a6" "$PROOF_DIR/tag-tree.json"
+          fetch "https://raw.githubusercontent.com/publicsuffix/list/3929462652695bad04f0a27afb600974014a3c8b/public_suffix_list.dat" "$PROOF_DIR/public_suffix_list.dat"
+          fetch "https://raw.githubusercontent.com/remusao/tldts/3ac3c4cd3161b0e56383ff93c23a79a7e5e91508/packages/tldts/src/data/trie.ts" "$PROOF_DIR/trie.ts"
+          sha256sum "$PROOF_DIR/public_suffix_list.dat" "$PROOF_DIR/trie.ts" "spikes/gate0/node_modules/tldts/src/data/trie.ts"
+      - name: Verify PSL provenance and package identity
+        run: node --test spikes/gate0/psl-provenance.test.mjs
