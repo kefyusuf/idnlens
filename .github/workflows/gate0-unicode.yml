@@ -1,0 +1,38 @@
+name: Gate 0 Unicode source provenance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-unicode-*'
+
+permissions:
+  contents: read
+
+jobs:
+  unicode-source-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      IDNLENS_UNICODE_SOURCE_DIR: ${{ runner.temp }}/idnlens-unicode
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Retrieve official versioned Unicode sources for Gate 0 verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          for relative in security/IdentifierStatus.txt security/confusables.txt ucd/ScriptExtensions.txt ucd/Scripts.txt; do
+            mkdir -p "$IDNLENS_UNICODE_SOURCE_DIR/$(dirname "$relative")"
+            curl --fail --silent --show-error --location --retry 2 --max-time 40 --proto '=https' --tlsv1.2 \
+              "https://www.unicode.org/Public/18.0.0/$relative" \
+              --output "$IDNLENS_UNICODE_SOURCE_DIR/$relative"
+            sha256sum "$IDNLENS_UNICODE_SOURCE_DIR/$relative"
+          done
+      - name: Verify source identity and SHA-256 evidence
+        run: node --test spikes/gate0/unicode-source-provenance.test.mjs
