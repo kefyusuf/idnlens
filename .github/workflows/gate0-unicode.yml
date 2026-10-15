@@ -14,8 +14,6 @@ jobs:
   unicode-source-proof:
     runs-on: ubuntu-latest
     timeout-minutes: 8
-    env:
-      IDNLENS_UNICODE_SOURCE_DIR: ${{ runner.temp }}/idnlens-unicode
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -27,6 +25,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          IDNLENS_UNICODE_SOURCE_DIR="$RUNNER_TEMP/idnlens-unicode"
+          echo "IDNLENS_UNICODE_SOURCE_DIR=$IDNLENS_UNICODE_SOURCE_DIR" >> "$GITHUB_ENV"
           for relative in security/IdentifierStatus.txt security/confusables.txt ucd/ScriptExtensions.txt ucd/Scripts.txt; do
             mkdir -p "$IDNLENS_UNICODE_SOURCE_DIR/$(dirname "$relative")"
             curl --fail --silent --show-error --location --retry 2 --max-time 40 --proto '=https' --tlsv1.2 \
