@@ -16,7 +16,7 @@ const expected = Object.freeze({
   tagObjectSha: '6343e032fd673fb10d4e39f6f05b690ee3e113cb',
   tagCommit: '6d09104f21991d496aa2a8535d21bdea91a9c216',
   tagTree: 'd452de725b0914d94a4f77068f8ae00672b8e179',
-  mappingSource: 'https://www.unicode.org/Public/18.0.0/idna/IdnaMappingTable.txt',
+  mappingSource: 'https://unicode.org/Public/18.0.0/idna/IdnaMappingTable.txt',
 });
 
 const sha256 = (data) => createHash('sha256').update(data).digest('hex');
