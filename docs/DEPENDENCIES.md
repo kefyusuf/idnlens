@@ -10,10 +10,10 @@ The isolated `spikes/gate0/package-lock.json` is an npm lockfile v3 produced on 
 
 | Package | Version | Role | License claim | Integrity |
 |---|---|---|---|---|
-| `tr46` | `7.0.0` | UTS #46 processing candidate | MIT (source/package claim; independent notice audit pending) | SHA-512 in committed lock |
-| `punycode` | `2.3.1` | transitive dependency of tr46 | license audit pending | SHA-512 in committed lock |
-| `tldts` | `7.4.18` | PSL resolver candidate | MIT (npm package claims) | SHA-512 in committed lock |
-| `tldts-core` | `7.4.18` | transitive dependency of tldts | license audit pending | SHA-512 in committed lock |
+| `tr46` | `7.0.0` | UTS #46 processing candidate | MIT license file observed; release notice review pending | SHA-512 in committed lock |
+| `punycode` | `2.3.1` | transitive dependency of tr46 | MIT license file observed; release notice review pending | SHA-512 in committed lock |
+| `tldts` | `7.4.18` | PSL resolver candidate | MIT license file observed; PSL-derived data separately reviewed | SHA-512 in committed lock |
+| `tldts-core` | `7.4.18` | transitive dependency of tldts | MIT license file observed; release notice review pending | SHA-512 in committed lock |
 
 For exact `resolved` tarball URLs and complete SHA-512 strings, inspect **the lockfile itself**. There is no separate copied digest inventory to keep in sync. All versions, including transitive versions, are tested against an explicit allowlist in `dependency-provenance.test.mjs`.
 
@@ -35,7 +35,7 @@ Do **not** download upstream `latest` data implicitly or add a runtime feed. Thi
 ## Explicit remaining gates
 
 1. Unicode 18.0 security files, the PSL snapshot, and TR46 mapping table now have pinned SHA-256 records. TR46 mapping and regex source/replay are now proven for pinned data; PSL generator replay, packaging notices and risk review remain open.
-2. Verify transitive licenses, Unicode-3.0 redistribution notices and package maintenance/security posture.
+2. **Gate 0-04A** verified 5 of 6 actual Gate 0 npm license files; `@unicode/unicode-18.0.0@2.0.7` provides MIT metadata but has no root license text. Unicode-3.0 and MPL-2.0 source-data notice treatment remains open. See `docs/gates/GATE0-LICENSE-EVIDENCE.md` and `docs/THIRD-PARTY-NOTICES-DRAFT.md`. A separate **Gate 0-04B** security/maintenance review remains pending.
 3. Measure minified and uncompressed browser-oriented bundle impact using a reproducible method; no extension scaffold is authorized.
 4. Review ADR-0002 and ADR-0003 against that evidence; they remain **Proposed** until an explicit decision.
 
