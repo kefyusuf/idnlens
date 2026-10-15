@@ -31,6 +31,12 @@ The last package is used only by the offline **Gate 0 TR46 regex replay**, not b
 - The evidence inspection identified a missing top-level license file in `@unicode/unicode-18.0.0@2.0.7`. The next test commit `c21b108` explicitly models this as **metadata-only, release blocked**, instead of fabricating a bundled notice.
 - **GREEN:** commit `0126bbf`, [GitHub Actions](https://github.com/kefyusuf/idnlens/actions/runs/38730227117) passed **5/5** checks with all package versions, license texts, the metadata-only exception, and data-source license separation recorded.
 
+## Gate 0-07 follow-up: upstream generator license found, package notice still missing
+
+The `@unicode/unicode-18.0.0@2.0.7` [generated package repository at its release commit](https://github.com/node-unicode/unicode-18.0.0/tree/f4cac36e42e85a43d037cb010fdb1f2eb17c1c36) declares MIT and points to `node-unicode/node-unicode-data` as its generator. The [generator MIT license file](https://github.com/node-unicode/node-unicode-data/blob/6bb2993582494b715c78a10708a456be5249d188/LICENSE-MIT.txt) was located at fixed commit `6bb2993582494b715c78a10708a456be5249d188` and Git blob `a41e0a7ef970ecdd83d82cd99bda97b22077bc62`.
+
+This establishes **upstream MIT license text exists**; it **does not repair the missing license file in the published Unicode helper package** or approve redistributing generated Unicode data. The helper appears only in the Gate 0 regex replay toolchain, not the intended M0 dependency graph. Its future release inclusion and correct notices must be reviewed against actual artifacts. The package status in `spikes/gate0/license-notices.json` intentionally remains `BLOCKED_MISSING_BUNDLED_LICENSE`.
+
 ## Remaining actions before release decision
 
 1. Resolve the Unicode helper's license notice gap from a trusted upstream source and decide whether/which original copyright notices must be carried forward. **Do not mark approved based on npm metadata alone.**

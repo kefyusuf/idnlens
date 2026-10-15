@@ -122,5 +122,33 @@
         "docs/RELEASE-CHECKLIST.md"
       ]
     }
-  ]
+  ],
+  "authorizationBoundary": {
+    "internalM0": {
+      "status": "PENDING_EXPLICIT_MAINTAINER_DECISION",
+      "minimumADRsForM001": [
+        "ADR-0001",
+        "ADR-0002",
+        "ADR-0003"
+      ],
+      "gate0ClosureRequired": true,
+      "authorized": false
+    },
+    "publicDistribution": {
+      "status": "BLOCKED",
+      "thirdPartyNoticesReviewed": false,
+      "repositoryLicenseChosen": false,
+      "authorized": false
+    }
+  },
+  "unicodeHelperNoticeEvidence": {
+    "package": "@unicode/unicode-18.0.0@2.0.7",
+    "packageSourceCommit": "f4cac36e42e85a43d037cb010fdb1f2eb17c1c36",
+    "generatorRepository": "node-unicode/node-unicode-data",
+    "generatorCommit": "6bb2993582494b715c78a10708a456be5249d188",
+    "licensePath": "LICENSE-MIT.txt",
+    "licenseGitBlobSha": "a41e0a7ef970ecdd83d82cd99bda97b22077bc62",
+    "result": "UPSTREAM_LICENSE_TEXT_FOUND_BUNDLED_NOTICE_MISSING",
+    "distributionApproved": false
+  }
 }
