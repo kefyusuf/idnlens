@@ -16,11 +16,12 @@ const policy = {
 };
 const fixture = (counts = {}) => {
   const vulnerabilities = { info: 0, low: 0, moderate: 0, high: 0, critical: 0, ...counts };
+  const total = Object.values(vulnerabilities).reduce((a, b) => a + b, 0);
   return {
     auditReportVersion: 2,
-    vulnerabilities: {},
+    vulnerabilities: total > 0 ? { sample: { name: 'sample', severity: 'moderate' } } : {},
     metadata: {
-      vulnerabilities: { ...vulnerabilities, total: Object.values(vulnerabilities).reduce((a, b) => a + b, 0) },
+      vulnerabilities: { ...vulnerabilities, total },
       dependencies: { total: 7, prod: 6, dev: 0, optional: 0, peer: 0, peerOptional: 0 },
     },
   };
