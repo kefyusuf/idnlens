@@ -1,0 +1,43 @@
+name: Gate 0 license evidence
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-license-*'
+
+permissions:
+  contents: read
+
+jobs:
+  license-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Install both reviewed, locked Gate 0 dependency graphs
+        run: |
+          npm ci --prefix spikes/gate0 --ignore-scripts --no-audit --no-fund
+          npm ci --prefix spikes/gate0/regex-replay --ignore-scripts --no-audit --no-fund
+      - name: Inventory shipped npm LICENSE files (review evidence)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in punycode tldts tldts-core tr46; do
+            dir="spikes/gate0/node_modules/$name"
+            echo "PACKAGE main/$name"
+            find "$dir" -maxdepth 1 -type f \( -iname '*license*' -o -iname '*copying*' \) -printf '%f\n' | sort
+          done
+          for name in regenerate @unicode/unicode-18.0.0; do
+            dir="spikes/gate0/regex-replay/node_modules/$name"
+            echo "PACKAGE regex/$name"
+            find "$dir" -maxdepth 1 -type f \( -iname '*license*' -o -iname '*copying*' \) -printf '%f\n' | sort
+          done
+      - name: Run versioned license and notice inventory tests
+        run: node --test spikes/gate0/license-notices.test.mjs
