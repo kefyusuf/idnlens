@@ -1,0 +1,12 @@
+{
+  "tag": "v7.0.0",
+  "tagCommit": "6d09104f21991d496aa2a8535d21bdea91a9c216",
+  "unicodeVersion": "18.0.0",
+  "generatorUrl": "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/scripts/generateRegexes.mjs",
+  "generatorSha256": "4f30b5268ffe684c1e2a90705ebd33e785285b1bce8e4a00d8cc77cb806f70a4",
+  "joiningTypeUrl": "https://unicode.org/Public/18.0.0/ucd/extracted/DerivedJoiningType.txt",
+  "joiningTypeSha256": "e2408ff2c92b175b0f7bf62c989bbb54c7b077528fe31f8d69b96fa09e7d61ed",
+  "combiningClassUrl": "https://unicode.org/Public/18.0.0/ucd/extracted/DerivedCombiningClass.txt",
+  "combiningClassSha256": "ef6b2611cfb660dba3f6b458b9eb4b05f44ed2417302ee7749d7f0f348793121",
+  "publishedRegexSha256": "eb690752aa1b1ac024251681317369bf96df463f3632d650163e0b8b658e4e1d"
+}
