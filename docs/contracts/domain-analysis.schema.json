@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/idnlens/schema/domain-analysis-0.1.json",
+  "title": "IDNLens DomainAnalysis (planning contract)",
+  "description": "Draft serialized analysis result. Never certifies a website as safe or malicious. The .invalid identifier is non-operational.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["outcome", "asciiHostname", "unicodeHostname", "registrableAscii", "registrableUnicode", "matchedProtectedDomain", "evidence", "dataVersions"],
+  "properties": {
+    "outcome": {"type": "string", "enum": ["NO_INDICATOR", "REVIEW", "LOOKALIKE", "UNSUPPORTED"]},
+    "asciiHostname": {"type": ["string", "null"], "maxLength": 253},
+    "unicodeHostname": {"type": ["string", "null"], "maxLength": 512},
+    "registrableAscii": {"type": ["string", "null"], "maxLength": 253},
+    "registrableUnicode": {"type": ["string", "null"], "maxLength": 512},
+    "matchedProtectedDomain": {"type": ["string", "null"], "maxLength": 253},
+    "evidence": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "detail"],
+        "properties": {
+          "code": {"type": "string", "enum": ["MIXED_SCRIPT", "CONFUSABLE_MATCH", "WHOLE_SCRIPT_MATCH", "IDNA_ANOMALY", "UNSUPPORTED_HOST"]},
+          "detail": {"type": "string", "minLength": 1, "maxLength": 512},
+          "codePoints": {"type": "array", "maxItems": 50, "uniqueItems": true, "items": {"type": "string", "pattern": "^U\\+[0-9A-F]{4,6}$"}}
+        }
+      }
+    },
+    "dataVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unicode", "psl", "catalog"],
+      "properties": {
+        "unicode": {"type": "string", "minLength": 1, "maxLength": 80},
+        "psl": {"type": "string", "minLength": 1, "maxLength": 80},
+        "catalog": {"type": "string", "minLength": 1, "maxLength": 80}
+      }
+    }
+  }
+}

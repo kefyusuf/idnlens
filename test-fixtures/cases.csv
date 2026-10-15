@@ -1,0 +1,31 @@
+id,hostname,protectedDomains,testPurpose,hypothesis,reviewNotes
+F001,amazon.com,amazon.com,exact protected ASCII reference,NO_INDICATOR,canonical comparison; assuming supported suffix
+F002,www.amazon.com,amazon.com,normal subdomain of protected domain,NO_INDICATOR,registrable comparison excludes legitimate subdomain
+F003,аmazon.com,amazon.com,mixed Latin/Cyrillic U+0430 at initial position,LOOKALIKE,"verify mapping against pinned UTS39; synthetic input, not proof registrable"
+F004,pаypal.com,paypal.com,mixed-script Cyrillic U+0430,LOOKALIKE,verify reference mapping; protected name in catalog
+F005,аррӏе.com,apple.com,whole-script Cyrillic lookalike,LOOKALIKE,"test whole-script algorithm; synthetic input, no registration assertion"
+F006,bücher.de,,legitimate Latin diacritic domain,NO_INDICATOR,Unicode presence alone not warning; review exact data behavior
+F007,例え.テスト,,non-Latin reserved example,NO_INDICATOR,"parse as fixture, do not resolve on network; supported suffix policy may yield UNSUPPORTED"
+F008,paypal.com.evil.co.uk,paypal.com,brand text inside unrelated registrable domain,NO_INDICATOR,registrable name should be evil.co.uk
+F009,example.co.uk,,compound TLD parsing,NO_INDICATOR,registrable domain expected example.co.uk
+F010,foo.example.co.uk,,compound TLD subdomain,NO_INDICATOR,registrable domain expected example.co.uk
+F011,127.0.0.1,,IPv4 literal,UNSUPPORTED,not a public registrable domain
+F012,[::1],,IPv6 URL-literal representation,UNSUPPORTED,not a hostname accepted by core
+F013,localhost,,localhost,UNSUPPORTED,no public registrable domain
+F014,https://amazon.com,,URL accidentally passed to hostname core,UNSUPPORTED,strict API rejects scheme/path
+F015,paypal.com:443,,port suffix in hostname-only API,UNSUPPORTED,reject port syntax
+F016,paypal.com@evil.example,,userinfo in hostname-only API,UNSUPPORTED,reject @-character
+F017,xn--invalid-.com,,malformed or suspicious punycode,UNSUPPORTED,verify exact IDNA rejection in dependency spike
+F018,xn--.com,,malformed A-label,UNSUPPORTED,do not silently produce NO_INDICATOR
+F019,a..com,,empty DNS label,UNSUPPORTED,validation error
+F020,a.com.,,trailing root dot,NO_INDICATOR,accept or explicitly reject by pinned policy; test determinism
+F021,test.google.com.evil.tld,google.com,unknown TLD / nested target-like prefix,UNSUPPORTED,policy for unknown public suffix must be frozen
+F022,google.co,google.com,same label but different public suffix,NO_INDICATOR,different-TLD similarity deliberately out of v0 catalog-match scope
+F023,раураl.com,paypal.com,mixed script plus confusable,LOOKALIKE,reference mapping needed
+F024,EXAMPLE.COM,,ASCII uppercase,NO_INDICATOR,canonical normalization check
+F025,xn--bcher-kva.de,,A-label spelling of bücher.de,NO_INDICATOR,expect equivalent U-label output
+F026,l\u200Dabel.com,,zero-width joiner in submitted hostname,UNSUPPORTED,UTS46 behavior may reject or normalize; review
+F027,a\u202Eb.com,,bidi override,UNSUPPORTED,disallowed controls must not pass cleanly
+F028,\uD800.com,,unpaired UTF-16 surrogate generated as test input,UNSUPPORTED,decode escape in test constructor; input must not crash
+F029,paypal.com.tr,paypal.com,different public suffix,NO_INDICATOR,different suffix out of matching scope
+F030,sub.paypal.com,,subdomain when no protected catalog,NO_INDICATOR,no injected protected domains
