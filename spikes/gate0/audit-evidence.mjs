@@ -30,6 +30,10 @@ export function assessAuditReport(report, exitCode, minimumPackages) {
       report.error || report.auditReportVersion !== 2) {
     throw new Error('Audit registry response invalid/unavailable');
   }
+  const details = report.vulnerabilities;
+  if (!details || typeof details !== 'object' || Array.isArray(details)) {
+    throw new Error('Audit vulnerabilities payload missing or invalid');
+  }
   const counts = report.metadata?.vulnerabilities;
   const dependencies = report.metadata?.dependencies;
   if (!counts || !dependencies || !Number.isInteger(dependencies.total) ||
@@ -47,6 +51,10 @@ export function assessAuditReport(report, exitCode, minimumPackages) {
   const total = severities.reduce((sum, severity) => sum + summarized[severity], 0);
   if (!Number.isSafeInteger(counts.total) || counts.total !== total) {
     throw new Error('Audit severity totals inconsistent');
+  }
+  if ((total === 0 && Object.keys(details).length !== 0) ||
+      (total > 0 && Object.keys(details).length === 0)) {
+    throw new Error('Audit vulnerabilities detail map inconsistent with severity totals');
   }
   if (total === 0) {
     if (exitCode !== 0) {
