@@ -57,8 +57,6 @@ test('any reported vulnerability is a review blocker; never auto-fix', () => {
 test('network/API errors, unsupported JSON and inconsistent counts fail closed', () => {
   for (const body of [
     { error: { code: 'E403', summary: 'registry returned 403' } },
-    { ...fixture(), vulnerabilities: undefined },
-    { ...fixture(), vulnerabilities: { unexpected: { severity: 'high' } } },
     {},
     { auditReportVersion: 1, metadata: fixture().metadata },
     { auditReportVersion: 2, metadata: { vulnerabilities: {} } },
@@ -67,6 +65,8 @@ test('network/API errors, unsupported JSON and inconsistent counts fail closed',
   ]) {
     assert.throws(() => assessAuditReport(body, 1, 4));
   }
+  assert.throws(() => assessAuditReport({ ...fixture(), vulnerabilities: undefined }, 0, 4), /vulnerabilit/i);
+  assert.throws(() => assessAuditReport({ ...fixture(), vulnerabilities: { unexpected: { severity: 'high' } } }, 0, 4), /vulnerabilit/i);
   assert.throws(() => assessAuditReport('not JSON', 0, 4));
   assert.throws(() => assessAuditReport(fixture(), 1, 4), /exit/i);
   assert.throws(() => assessAuditReport(fixture(), 2, 4), /exit/i);
