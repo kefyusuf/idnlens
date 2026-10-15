@@ -26,8 +26,8 @@ test('Gate 0 decision record must exist and never silently authorize M0', () => 
   assert.equal(m.m0Authorized, false);
   assert.equal(m.productionDependenciesApproved, false);
   assert.equal(m.releaseApproved, false);
-  assert.equal(m.decisionOwnerSignoff, 'PENDING');
-  assert.deepEqual(m.adrStatuses, { 'ADR-0002': 'Proposed', 'ADR-0003': 'Proposed' });
+  assert.equal(m.decisionOwnerSignoff, 'APPROVED_VIA_MERGED_ADR_PR');
+  assert.deepEqual(m.adrStatuses, { 'ADR-0001': 'Accepted', 'ADR-0002': 'Accepted', 'ADR-0003': 'Accepted' });
 });
 
 test('every readiness finding has unique identity, bounded disposition, and real file evidence', () => {
@@ -59,11 +59,11 @@ test('candidate package versions and source hashes match pinned evidence', () =>
   assert.equal(unicode.uts39Revision, m.sources.uts39Revision);
 });
 
-test('license and signoff holds cannot be reclassified as completed by a green CI', () => {
+test('license and release holds survive architectural acceptance and green CI', () => {
   const m = decision();
   const byId = Object.fromEntries(m.findings.map(x => [x.id, x]));
   assert.equal(byId.THIRD_PARTY_NOTICES.status, 'OPEN');
-  assert.equal(byId.MAINTAINER_DECISION.status, 'PENDING_SIGNOFF');
+  assert.equal(byId.MAINTAINER_DECISION.status, 'EVIDENCED');
   assert.equal(byId.REPOSITORY_LICENSE.status, 'OPEN');
   assert.equal(byId.PSL_GENERATOR_REPLAY.status, 'NOT_REQUIRED_FOR_SELECTION');
   assert.equal(m.pslReplayPolicy, 'NOT_REQUIRED_FOR_CANDIDATE_SELECTION_WITH_CAVEAT');
@@ -73,7 +73,7 @@ test('license and signoff holds cannot be reclassified as completed by a green C
   assert.equal(existsSync(resolve(root, 'LICENSE')), false, 'a new root LICENSE requires decision re-review');
 });
 
-test('ADR proposals and roadmap still require explicit owner review', () => {
+test('staged accepted ADRs match source status while roadmap still prevents M0', () => {
   const m = decision();
   for (const [adr, expectedStatus] of Object.entries(m.adrStatuses)) {
     const source = readFileSync(resolve(root, 'docs/adr/' + adr + '.md'), 'utf8');
@@ -89,7 +89,7 @@ test('Gate 0-07 separates internal development approval from release authorizati
   const m = decision();
   const boundary = m.authorizationBoundary;
   assert.deepEqual(boundary.internalM0, {
-    status: 'PENDING_EXPLICIT_MAINTAINER_DECISION',
+    status: 'PENDING_SEPARATE_GATE0_CLOSURE',
     minimumADRsForM001: ['ADR-0001', 'ADR-0002', 'ADR-0003'],
     gate0ClosureRequired: true,
     authorized: false,
@@ -104,7 +104,7 @@ test('Gate 0-07 separates internal development approval from release authorizati
   assert.equal(m.releaseApproved, boundary.publicDistribution.authorized);
   for (const adr of boundary.internalM0.minimumADRsForM001) {
     const source = readFileSync(resolve(root, 'docs/adr/' + adr + '.md'), 'utf8');
-    assert.match(source, /^- \*\*Status:\*\* Proposed$/mu, adr);
+    assert.match(source, /^- \*\*Status:\*\* Accepted$/mu, adr);
   }
 });
 
