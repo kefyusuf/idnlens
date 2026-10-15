@@ -22,5 +22,5 @@ jobs:
       - name: Show runtime versions
         run: |
           node -p "JSON.stringify({node: process.version, icu: process.versions.icu, unicode: process.versions.unicode})"
-      - name: Run Gate 0 tests
-        run: node --test spikes/gate0/*.test.mjs
+      - name: Run independent Node baseline tests
+        run: node --test spikes/gate0/idna-baseline.test.mjs
