@@ -83,3 +83,51 @@ test('ADR proposals and roadmap still require explicit owner review', () => {
   assert.match(roadmap, /No new feature, browser extension scaffolding or catalog feed/u);
   assert.match(roadmap, /## Gate 0/u);
 });
+
+
+test('Gate 0-07 separates internal development approval from release authorization', () => {
+  const m = decision();
+  const boundary = m.authorizationBoundary;
+  assert.deepEqual(boundary.internalM0, {
+    status: 'PENDING_EXPLICIT_MAINTAINER_DECISION',
+    minimumADRsForM001: ['ADR-0001', 'ADR-0002', 'ADR-0003'],
+    gate0ClosureRequired: true,
+    authorized: false,
+  });
+  assert.deepEqual(boundary.publicDistribution, {
+    status: 'BLOCKED',
+    thirdPartyNoticesReviewed: false,
+    repositoryLicenseChosen: false,
+    authorized: false,
+  });
+  assert.equal(m.m0Authorized, boundary.internalM0.authorized);
+  assert.equal(m.releaseApproved, boundary.publicDistribution.authorized);
+  for (const adr of boundary.internalM0.minimumADRsForM001) {
+    const source = readFileSync(resolve(root, 'docs/adr/' + adr + '.md'), 'utf8');
+    assert.match(source, /^- \*\*Status:\*\* Proposed$/mu, adr);
+  }
+});
+
+test('Gate 0-07 links upstream Unicode generator MIT text without clearing the npm notice gap', () => {
+  const m = decision();
+  const source = m.unicodeHelperNoticeEvidence;
+  assert.deepEqual(source, {
+    package: '@unicode/unicode-18.0.0@2.0.7',
+    packageSourceCommit: 'f4cac36e42e85a43d037cb010fdb1f2eb17c1c36',
+    generatorRepository: 'node-unicode/node-unicode-data',
+    generatorCommit: '6bb2993582494b715c78a10708a456be5249d188',
+    licensePath: 'LICENSE-MIT.txt',
+    licenseGitBlobSha: 'a41e0a7ef970ecdd83d82cd99bda97b22077bc62',
+    result: 'UPSTREAM_LICENSE_TEXT_FOUND_BUNDLED_NOTICE_MISSING',
+    distributionApproved: false,
+  });
+  const inventory = load('spikes/gate0/license-notices.json');
+  const pkg = inventory.packages.find(p => p.graph === 'regex' && p.name === '@unicode/unicode-18.0.0');
+  assert.equal(pkg?.licenseFile, null);
+  assert.equal(pkg?.evidence, 'METADATA_ONLY');
+  assert.equal(pkg?.noticeStatus, 'BLOCKED_MISSING_BUNDLED_LICENSE');
+  assert.equal(inventory.productionApproved, false);
+  const draft = readFileSync(resolve(root, 'docs/THIRD-PARTY-NOTICES-DRAFT.md'), 'utf8');
+  assert.match(draft, /node-unicode\/node-unicode-data/u);
+  assert.match(draft, /not a final distribution clearance/i);
+});
