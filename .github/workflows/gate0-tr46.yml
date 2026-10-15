@@ -1,0 +1,47 @@
+name: Gate 0 TR46 mapping provenance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-tr46-*'
+
+permissions:
+  contents: read
+
+jobs:
+  tr46-mapping-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Install locked Gate 0 dependencies
+        working-directory: spikes/gate0
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Retrieve fixed tag and Unicode IDNA source (evidence only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROOF_DIR="$RUNNER_TEMP/idnlens-tr46"
+          mkdir -p "$PROOF_DIR/scripts" "$PROOF_DIR/lib"
+          echo "IDNLENS_TR46_PROOF_DIR=$PROOF_DIR" >> "$GITHUB_ENV"
+          fetch() {
+            curl --fail --silent --show-error --location --retry 2 --max-time 45 \
+              --proto '=https' --tlsv1.2 "$1" --output "$2"
+          }
+          fetch "https://api.github.com/repos/jsdom/tr46/git/ref/tags/v7.0.0" "$PROOF_DIR/tag-ref.json"
+          fetch "https://api.github.com/repos/jsdom/tr46/git/tags/6343e032fd673fb10d4e39f6f05b690ee3e113cb" "$PROOF_DIR/tag-object.json"
+          fetch "https://api.github.com/repos/jsdom/tr46/git/commits/6d09104f21991d496aa2a8535d21bdea91a9c216" "$PROOF_DIR/tag-commit.json"
+          fetch "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/package.json" "$PROOF_DIR/package.json"
+          fetch "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/scripts/generateMappingTable.mjs" "$PROOF_DIR/scripts/generateMappingTable.mjs"
+          fetch "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/lib/statusMapping.js" "$PROOF_DIR/lib/statusMapping.js"
+          fetch "https://www.unicode.org/Public/18.0.0/idna/IdnaMappingTable.txt" "$PROOF_DIR/IdnaMappingTable.txt"
+          sha256sum "$PROOF_DIR/IdnaMappingTable.txt" "$PROOF_DIR/scripts/generateMappingTable.mjs" "$PROOF_DIR/lib/statusMapping.js" "spikes/gate0/node_modules/tr46/lib/mappingTable.json"
+      - name: Validate manifest, source bytes, and offline tagged generator replay
+        run: node --test spikes/gate0/tr46-provenance.test.mjs
