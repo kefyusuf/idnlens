@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
@@ -84,6 +84,8 @@ test('each npm package matches its recorded license evidence level and version',
     if (entry.evidence === 'METADATA_ONLY') {
       assert.equal(entry.name, '@unicode/unicode-18.0.0');
       assert.equal(entry.licenseFile, null);
+      const candidates = readdirSync(base).filter(name => /^(licen[cs]e|copying|notice)/i.test(name));
+      assert.deepEqual(candidates, [], 'metadata-only evidence must be reviewed if a notice file appears');
       continue;
     }
     const noticePath = resolve(base, entry.licenseFile);
