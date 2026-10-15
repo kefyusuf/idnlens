@@ -5,9 +5,13 @@
 **Baseline:** `36d13fa0a2d051f95c7c38959ee11ad905f0afe0`  
 **Scope:** One decision-boundary clarification and one upstream-license-evidence follow-up. No acceptance of ADRs, no M0 code, no extension, no release, no dependency or data upgrade.
 
+## PR #13 transition note
+
+This Gate 0-07A document is a **historical, pre-acceptance** decision boundary. **Only if draft PR #13 is explicitly approved and merged**, ADR-0001, ADR-0002, and ADR-0003 become `Accepted` as design decisions; until then they remain `Proposed` on `main`. Gate 0 remains OPEN; M0-01 remains NOT AUTHORIZED; public distribution remains BLOCKED. Design acceptance does not satisfy release notices, implementation tests or a separate internal M0 start decision.
+
 ## 1. Internal development and public distribution are separate decisions
 
-**Internal M0-01 implementation — NOT AUTHORIZED YET.** The existing [Gate 0-06 readiness matrix](GATE0-DECISION-READINESS.json) remains open and requires an explicit maintainer decision. At a minimum, ADR-0001 (offline core), ADR-0002 (strict hostname/IDNA/PSL policy), and ADR-0003 (pinned data) need reviewed dispositions relevant to M0-01, followed by a recorded Gate 0 closure and M0-01 authorization. These three decisions alone do not automatically close every Gate 0 requirement. Remaining M0-specific ADRs must be reviewed before affected work.
+**Internal M0-01 implementation — NOT AUTHORIZED YET.** The existing [Gate 0-06 readiness matrix](GATE0-DECISION-READINESS.json) remains open and requires an explicit maintainer decision. At the time of this review, ADR-0001 (offline core), ADR-0002 (strict hostname/IDNA/PSL policy), and ADR-0003 (pinned data) still needed reviewed dispositions. Draft PR #13 stages their **design** acceptance. A recorded Gate 0 closure and separate M0-01 authorization would still be required afterward. These three decisions alone do not automatically close every Gate 0 requirement. Remaining M0-specific ADRs must be reviewed before affected work.
 
 **Public or binary distribution — BLOCKED independently.** The repository is already public, but its root does not contain a project `LICENSE`; this is a repository licensing decision, not a reason to invent a license. Third-party Unicode and MPL-2.0 PSL-derived data notices and the actual binary asset inventory are not cleared. Internal development approval, if later given, must not be interpreted as permission to package or publish a browser extension.
 
@@ -33,7 +37,7 @@ This remains a **review recommendation**, not an accepted waiver or claim of sou
 
 ## 4. Exact remaining decision
 
-The maintainer must explicitly record a choice for the Gate 0 design direction (accept, amend or reject ADR-0001/0002/0003 with any dependencies of M0-01), whether candidate dependency selection is acceptable for **internal work**, and whether to keep Gate 0 open for other requirements. No action in this PR impersonates that approval.
+Draft PR #13 is the separately reviewable proposed design decision for ADR-0001/0002/0003; its merge would record that narrow maintainer approval. **It does not decide whether to start internal M0-01** or close all Gate 0 requirements. The internal M0-01 start and Gate 0 closeout still require a later explicit decision. The public distribution decision remains independently blocked.
 
 The project source-license choice and third-party notices remain **publication gates**, separately from authorizing internal tests.
 
@@ -41,4 +45,4 @@ The project source-license choice and third-party notices remain **publication g
 
 The existing Gate 0 dependency CI now additionally rejects decision-record changes that implicitly grant M0 permission, promote project publication, misstate third-party notices, or claim ADR acceptance without source changes. RED is a specific missing boundary in the previous decision record; GREEN requires exact separation while preserving existing package and source fingerprints.
 
-**No new package, workflow, feature, browser adapter, data feed, policy engine or production implementation.** This review should be merged only after exact-head CI and commit-scope review. Gate 0 and ADRs remain pending after merge.
+**No new package, workflow, feature, browser adapter, data feed, policy engine or production implementation.** This review should be merged only after exact-head CI and commit-scope review. Gate 0 remains pending even if design ADRs are later accepted through PR #13.
