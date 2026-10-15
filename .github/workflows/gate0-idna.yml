@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: '22.16.0'
       - name: Show runtime versions
-        run: node -p "JSON.stringify({node: process.version, icu: process.versions.icu, unicode: process.versions.unicode})"
+        run: |
+          node -p "JSON.stringify({node: process.version, icu: process.versions.icu, unicode: process.versions.unicode})"
       - name: Run Gate 0 tests
         run: node --test spikes/gate0/*.test.mjs
