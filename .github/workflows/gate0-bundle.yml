@@ -1,0 +1,33 @@
+name: Gate 0 browser bundle footprint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'spike/gate0-browser-bundle-*'
+
+permissions:
+  contents: read
+
+jobs:
+  bundle-footprint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22.16.0'
+      - name: Install already pinned dependency candidates
+        run: npm ci --prefix spikes/gate0 --ignore-scripts --no-audit --no-fund
+      - name: Install isolated bundler with integrity checked lockfile
+        run: npm ci --prefix spikes/gate0/bundle-probe --ignore-scripts --no-audit --no-fund
+      - name: Verify fixed browser bundle measurement and reproducibility
+        run: node --test spikes/gate0/bundle-probe/measure.test.mjs
+      - name: Print measurement evidence tied to this commit
+        shell: bash
+        run: |
+          node --input-type=module -e 'import { measureBundles } from "./spikes/gate0/bundle-probe/measure.mjs"; console.log("BUNDLE_FOOTPRINT_JSON=" + JSON.stringify(await measureBundles()));'

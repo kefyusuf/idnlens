@@ -1,0 +1,10 @@
+{
+  "name": "idnlens-gate0-bundle-probe",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated browser bundle measurement tool; not an application dependency",
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
