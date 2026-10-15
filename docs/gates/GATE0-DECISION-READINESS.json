@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "gate": "Gate 0",
+  "reviewedDate": "2026-10-15",
+  "evidenceBaseCommit": "1b73091b95eb5dd734d175832e053c3bd9c620c5",
+  "status": "OPEN",
+  "m0Authorized": false,
+  "productionDependenciesApproved": false,
+  "releaseApproved": false,
+  "decisionOwnerSignoff": "PENDING",
+  "adrStatuses": {
+    "ADR-0002": "Proposed",
+    "ADR-0003": "Proposed"
+  },
+  "candidates": {
+    "idna": "tr46@7.0.0",
+    "psl": "tldts@7.4.18"
+  },
+  "sources": {
+    "unicodeVersion": "18.0.0",
+    "uts39Revision": 34,
+    "pslCommit": "3929462652695bad04f0a27afb600974014a3c8b",
+    "packagedTrieSha256": "4588582bb1f5cc66d6ad7b9981c410d0a9e3527b2fc0d2c7e308a3d74ccd9a4c"
+  },
+  "pslReplayPolicy": "NOT_REQUIRED_FOR_CANDIDATE_SELECTION_WITH_CAVEAT",
+  "findings": [
+    {
+      "id": "IDNA_BEHAVIOR",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-DEPENDENCY-COMPARISON.md",
+        "spikes/gate0/idna-dependencies.test.mjs"
+      ]
+    },
+    {
+      "id": "IDNA_SOURCE_PROVENANCE",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-TR46-MAPPING-PROVENANCE.md",
+        "docs/gates/GATE0-TR46-REGEX-PROVENANCE.md"
+      ]
+    },
+    {
+      "id": "PSL_BEHAVIOR",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-DEPENDENCY-COMPARISON.md",
+        "spikes/gate0/idna-dependencies.test.mjs"
+      ]
+    },
+    {
+      "id": "PSL_SOURCE_IDENTITY",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-PSL-PROVENANCE.md",
+        "spikes/gate0/psl-sources.json"
+      ]
+    },
+    {
+      "id": "UNICODE_SECURITY_DATA",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-UNICODE-SOURCES.md",
+        "spikes/gate0/unicode-sources.json"
+      ]
+    },
+    {
+      "id": "PACKAGE_INTEGRITY",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-LOCKFILE-INTEGRITY.md",
+        "spikes/gate0/package-lock.json"
+      ]
+    },
+    {
+      "id": "SECURITY_REVIEW",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-ADVISORY-MAINTENANCE.md",
+        "spikes/gate0/audit-policy.json"
+      ]
+    },
+    {
+      "id": "BUNDLE_FOOTPRINT",
+      "status": "EVIDENCED",
+      "evidencePaths": [
+        "docs/gates/GATE0-BUNDLE-FOOTPRINT.md",
+        "spikes/gate0/bundle-probe/measure.test.mjs"
+      ]
+    },
+    {
+      "id": "PSL_GENERATOR_REPLAY",
+      "status": "NOT_REQUIRED_FOR_SELECTION",
+      "evidencePaths": [
+        "docs/gates/GATE0-PSL-PROVENANCE.md",
+        "spikes/gate0/psl-sources.json"
+      ]
+    },
+    {
+      "id": "THIRD_PARTY_NOTICES",
+      "status": "OPEN",
+      "evidencePaths": [
+        "docs/gates/GATE0-LICENSE-EVIDENCE.md",
+        "docs/THIRD-PARTY-NOTICES-DRAFT.md",
+        "spikes/gate0/license-notices.json"
+      ]
+    },
+    {
+      "id": "MAINTAINER_DECISION",
+      "status": "PENDING_SIGNOFF",
+      "evidencePaths": [
+        "docs/DECISIONS.md",
+        "docs/adr/ADR-0002.md",
+        "docs/adr/ADR-0003.md"
+      ]
+    },
+    {
+      "id": "REPOSITORY_LICENSE",
+      "status": "OPEN",
+      "evidencePaths": [
+        "docs/ROADMAP.md",
+        "docs/RELEASE-CHECKLIST.md"
+      ]
+    }
+  ]
+}
