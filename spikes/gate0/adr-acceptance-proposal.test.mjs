@@ -59,3 +59,18 @@ test('proposed design acceptance does not lift notice and repository license hol
   assert.match(text('docs/gates/GATE0-DECISION-BOUNDARY.md'), /public.*distribution/iu);
   assert.match(text('docs/DECISIONS.md'), /Gate 0.*OPEN/u);
 });
+
+
+test('historical Gate 0-06/07 review reports describe the ADR transition without granting M0', () => {
+  for (const report of [
+    'docs/gates/GATE0-DECISION-READINESS.md',
+    'docs/gates/GATE0-DECISION-BOUNDARY.md',
+  ]) {
+    const content = text(report);
+    assert.match(content, /## PR #13 transition note/u, report);
+    assert.match(content, /ADR-0001, ADR-0002, and ADR-0003/u, report);
+    assert.match(content, /Gate 0 remains OPEN/u, report);
+    assert.match(content, /M0-01 remains NOT AUTHORIZED/u, report);
+    assert.match(content, /public distribution remains BLOCKED/u, report);
+  }
+});
