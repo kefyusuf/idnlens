@@ -1,0 +1,15 @@
+{
+  "version": "7.4.18",
+  "tag": "v7.4.18",
+  "tagObjectSha": "0d706a673d79aefcd95560a3f2f8d744071e6bb0",
+  "tagCommit": "3ac3c4cd3161b0e56383ff93c23a79a7e5e91508",
+  "sourceTree": "ca4454e0b0c4d4caed9d32fc62ee5d8d255660a6",
+  "pslCommit": "3929462652695bad04f0a27afb600974014a3c8b",
+  "pslFile": "public_suffix_list.dat",
+  "pslLicense": "MPL-2.0",
+  "pslSourceUrl": "https://raw.githubusercontent.com/publicsuffix/list/3929462652695bad04f0a27afb600974014a3c8b/public_suffix_list.dat",
+  "pslSha256": "2919eb9803c91a3f73a507cc6fedc934de005543c22c4016f72e3343de5dd6e7",
+  "triePath": "packages/tldts/src/data/trie.ts",
+  "trieSourceUrl": "https://raw.githubusercontent.com/remusao/tldts/3ac3c4cd3161b0e56383ff93c23a79a7e5e91508/packages/tldts/src/data/trie.ts",
+  "trieSha256": "4588582bb1f5cc66d6ad7b9981c410d0a9e3527b2fc0d2c7e308a3d74ccd9a4c"
+}
