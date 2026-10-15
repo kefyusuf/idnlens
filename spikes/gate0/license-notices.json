@@ -1,0 +1,77 @@
+{
+  "status": "EVIDENCE_ONLY_NOT_DISTRIBUTION_APPROVAL",
+  "productionApproved": false,
+  "capturedDate": "2026-10-15",
+  "packages": [
+    {
+      "graph": "main",
+      "name": "punycode",
+      "version": "2.3.1",
+      "license": "MIT",
+      "licenseFile": "LICENSE-MIT.txt",
+      "evidence": "BUNDLED_LICENSE_TEXT",
+      "noticeStatus": "REQUIRES_RELEASE_REVIEW"
+    },
+    {
+      "graph": "main",
+      "name": "tldts",
+      "version": "7.4.18",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "evidence": "BUNDLED_LICENSE_TEXT",
+      "noticeStatus": "REQUIRES_RELEASE_REVIEW"
+    },
+    {
+      "graph": "main",
+      "name": "tldts-core",
+      "version": "7.4.18",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "evidence": "BUNDLED_LICENSE_TEXT",
+      "noticeStatus": "REQUIRES_RELEASE_REVIEW"
+    },
+    {
+      "graph": "main",
+      "name": "tr46",
+      "version": "7.0.0",
+      "license": "MIT",
+      "licenseFile": "LICENSE.md",
+      "evidence": "BUNDLED_LICENSE_TEXT",
+      "noticeStatus": "REQUIRES_RELEASE_REVIEW"
+    },
+    {
+      "graph": "regex",
+      "name": "@unicode/unicode-18.0.0",
+      "version": "2.0.7",
+      "license": "MIT",
+      "licenseFile": null,
+      "evidence": "METADATA_ONLY",
+      "noticeStatus": "BLOCKED_MISSING_BUNDLED_LICENSE"
+    },
+    {
+      "graph": "regex",
+      "name": "regenerate",
+      "version": "1.4.2",
+      "license": "MIT",
+      "licenseFile": "LICENSE-MIT.txt",
+      "evidence": "BUNDLED_LICENSE_TEXT",
+      "noticeStatus": "REQUIRES_RELEASE_REVIEW"
+    }
+  ],
+  "dataSources": [
+    {
+      "id": "unicode",
+      "license": "Unicode-3.0",
+      "reference": "https://www.unicode.org/license.txt",
+      "disposition": "RELEASE_NOTICE_REVIEW_REQUIRED"
+    },
+    {
+      "id": "psl",
+      "license": "MPL-2.0",
+      "reference": "https://www.mozilla.org/en-US/MPL/2.0/",
+      "sourceCommit": "3929462652695bad04f0a27afb600974014a3c8b",
+      "sha256": "2919eb9803c91a3f73a507cc6fedc934de005543c22c4016f72e3343de5dd6e7",
+      "disposition": "RELEASE_NOTICE_REVIEW_REQUIRED"
+    }
+  ]
+}
