@@ -29,3 +29,15 @@ jobs:
         run: npm ls --all
       - name: Execute candidate comparison tests
         run: node --test spikes/gate0/idna-dependencies.test.mjs
+
+      - name: Verify lockfile contract (RED gate)
+        run: node --test spikes/gate0/dependency-provenance.test.mjs
+      - name: Generate lockfile candidate for reviewed commit
+        if: always()
+        working-directory: spikes/gate0
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          echo LOCKFILE_BASE64_BEGIN
+          base64 -w0 package-lock.json
+          echo
+          echo LOCKFILE_BASE64_END
