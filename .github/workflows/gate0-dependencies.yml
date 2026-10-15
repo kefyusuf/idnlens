@@ -29,3 +29,5 @@ jobs:
         run: npm ls --all
       - name: Run dependency and provenance tests
         run: node --test spikes/gate0/idna-dependencies.test.mjs spikes/gate0/dependency-provenance.test.mjs
+      - name: Verify Gate 0 decision readiness and no-go boundaries
+        run: node --test spikes/gate0/decision-readiness.test.mjs
