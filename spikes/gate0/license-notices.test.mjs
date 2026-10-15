@@ -55,12 +55,20 @@ test('license inventory is complete, version-bound and not a production approval
   assert.equal(new Set(actual).size, actual.length);
   for (const entry of record.packages) {
     assert.equal(entry.license, 'MIT');
-    assert.equal(entry.noticeStatus, 'REQUIRES_RELEASE_REVIEW');
-    assert.ok(entry.licenseFile && !entry.licenseFile.includes('..'));
+    if (entry.evidence === 'METADATA_ONLY') {
+      assert.equal(entry.name, '@unicode/unicode-18.0.0');
+      assert.equal(entry.graph, 'regex');
+      assert.equal(entry.licenseFile, null);
+      assert.equal(entry.noticeStatus, 'BLOCKED_MISSING_BUNDLED_LICENSE');
+    } else {
+      assert.equal(entry.evidence, 'BUNDLED_LICENSE_TEXT');
+      assert.equal(entry.noticeStatus, 'REQUIRES_RELEASE_REVIEW');
+      assert.ok(entry.licenseFile && !entry.licenseFile.includes('..'));
+    }
   }
 });
 
-test('each installed npm package includes its claimed MIT text and license file', () => {
+test('each npm package matches its recorded license evidence level and version', () => {
   const record = manifest();
   for (const entry of record.packages) {
     const dir = graphs[entry.graph];
@@ -73,6 +81,11 @@ test('each installed npm package includes its claimed MIT text and license file'
     const lock = lockedPackages().find(p => p.graph === entry.graph && p.path === 'node_modules/' + entry.name);
     assert.equal(lock?.version, entry.version, 'lockfile mismatch');
     assert.equal(lock?.license, entry.license, 'lockfile license mismatch');
+    if (entry.evidence === 'METADATA_ONLY') {
+      assert.equal(entry.name, '@unicode/unicode-18.0.0');
+      assert.equal(entry.licenseFile, null);
+      continue;
+    }
     const noticePath = resolve(base, entry.licenseFile);
     assert.ok(noticePath.startsWith(base + sep), 'notice path must stay in package');
     assert.ok(statSync(noticePath).isFile(), 'license notice must be a file');
