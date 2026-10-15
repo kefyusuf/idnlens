@@ -1,0 +1,16 @@
+{
+  "tag": "v7.0.0",
+  "version": "7.0.0",
+  "unicodeVersion": "18.0.0",
+  "uts46Revision": 36,
+  "tagObjectSha": "6343e032fd673fb10d4e39f6f05b690ee3e113cb",
+  "tagCommit": "6d09104f21991d496aa2a8535d21bdea91a9c216",
+  "tagTree": "d452de725b0914d94a4f77068f8ae00672b8e179",
+  "mappingSource": "https://unicode.org/Public/18.0.0/idna/IdnaMappingTable.txt",
+  "mappingSourceSha256": "a03b1eb38032268c696406a83f0972d6a815acd2c8d4151d42ec0fda70ffced1",
+  "generatorUrl": "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/scripts/generateMappingTable.mjs",
+  "generatorSha256": "b2d3cc7721d43c6453f83ab06aa7ee5e21f3b4f0670bd090b76fbf8e7d09274a",
+  "statusMappingUrl": "https://raw.githubusercontent.com/jsdom/tr46/6d09104f21991d496aa2a8535d21bdea91a9c216/lib/statusMapping.js",
+  "statusMappingSha256": "ab7f706a1e3e74f4efd276560bb50e15f71dd0b20f85e87e21d1c18259420064",
+  "publishedMappingSha256": "82ae922b231ebc91e7f9f7d761dd62a68d49698878a55f79e43e83cd435dc448"
+}
