@@ -28,7 +28,7 @@ The manifest is the source of truth; do not copy these hashes into a separate ru
 ## TDD proof
 
 - **RED:** [Unicode source CI](https://github.com/kefyusuf/idnlens/actions/runs/38722452447) downloaded and hashed all four official sources successfully. The two manifest-dependent tests failed because the manifest did not exist; the independent mutation-detection test passed. This was an intentional, interpretable RED (not a network failure).
-- **GREEN:** add the manifest populated only with the raw SHA-256 digests observed in the RED runner. The CI fetches the files to the ephemeral runner temp directory and compares SHA-256 against the committed manifest. It runs no production code and does not publish binaries.
+- **GREEN:** commit `6ff01a6` adds the manifest populated only with the raw SHA-256 digests observed in the RED runner. [GitHub Actions success](https://github.com/kefyusuf/idnlens/actions/runs/38722606883) confirms **3/3 provenance tests passed** and all four official source checksums matched. Files are fetched only to the ephemeral runner temp directory. No production code or binaries are published.
 - The earlier GitHub Actions workflow syntax issue at commit `3e36d40` is **not** counted as TDD RED; it was corrected before the documented test failure.
 
 ## Security and reproducibility boundary
