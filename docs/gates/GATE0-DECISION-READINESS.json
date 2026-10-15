@@ -7,10 +7,11 @@
   "m0Authorized": false,
   "productionDependenciesApproved": false,
   "releaseApproved": false,
-  "decisionOwnerSignoff": "PENDING",
+  "decisionOwnerSignoff": "APPROVED_VIA_MERGED_ADR_PR",
   "adrStatuses": {
-    "ADR-0002": "Proposed",
-    "ADR-0003": "Proposed"
+    "ADR-0001": "Accepted",
+    "ADR-0002": "Accepted",
+    "ADR-0003": "Accepted"
   },
   "candidates": {
     "idna": "tr46@7.0.0",
@@ -107,9 +108,10 @@
     },
     {
       "id": "MAINTAINER_DECISION",
-      "status": "PENDING_SIGNOFF",
+      "status": "EVIDENCED",
       "evidencePaths": [
         "docs/DECISIONS.md",
+        "docs/adr/ADR-0001.md",
         "docs/adr/ADR-0002.md",
         "docs/adr/ADR-0003.md"
       ]
@@ -125,7 +127,7 @@
   ],
   "authorizationBoundary": {
     "internalM0": {
-      "status": "PENDING_EXPLICIT_MAINTAINER_DECISION",
+      "status": "PENDING_SEPARATE_GATE0_CLOSURE",
       "minimumADRsForM001": [
         "ADR-0001",
         "ADR-0002",
@@ -150,5 +152,10 @@
     "licenseGitBlobSha": "a41e0a7ef970ecdd83d82cd99bda97b22077bc62",
     "result": "UPSTREAM_LICENSE_TEXT_FOUND_BUNDLED_NOTICE_MISSING",
     "distributionApproved": false
-  }
+  },
+  "deferredImplementationEvidence": [
+    "M0-01 strict hostname and UTS #46 implementation behavior tests",
+    "M0-02 PSL integration and private suffix behavior tests",
+    "M0-03 UTS #39 transform and normative conformance fixtures"
+  ]
 }
