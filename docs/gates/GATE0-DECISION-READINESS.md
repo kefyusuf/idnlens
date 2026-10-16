@@ -5,7 +5,11 @@
 **Evidence baseline:** [main `1b73091b95eb5dd734d175832e053c3bd9c620c5`](https://github.com/kefyusuf/idnlens/commit/1b73091b95eb5dd734d175832e053c3bd9c620c5)  
 **Machine-readable findings:** [GATE0-DECISION-READINESS.json](GATE0-DECISION-READINESS.json)
 
-This is a bounded **decision-preparation** review, not an ADR acceptance, a license clearance, a code change to M0, a browser extension, or a release authorization. Both ADRs remain **Proposed**. The repository remains limited to planning material and Gate 0 spikes.
+This is a bounded **decision-preparation** review, not an ADR acceptance, a license clearance, a code change to M0, a browser extension, or a release authorization. At the time of this evidence review, ADR-0002 and ADR-0003 were **Proposed**. The repository remains limited to planning material and Gate 0 spikes.
+
+## PR #13 transition note
+
+This document preserves the **historical pre-acceptance review**. **Only if PR #13 is explicitly approved by the maintainer and merged**, ADR-0001, ADR-0002, and ADR-0003 become `Accepted` as **design policies**, not verified implementations. Until then they remain `Proposed` on `main`. Gate 0 remains OPEN; M0-01 remains NOT AUTHORIZED; public distribution remains BLOCKED. Third-party data notices and implementation-time conformance still require separate review.
 
 ## 1. Recommendation: ADR-0002 (normalization and registrable-domain identity)
 
@@ -17,9 +21,9 @@ Evidence:
 - [Tagged TR46 mapping](GATE0-TR46-MAPPING-PROVENANCE.md) and [regex generator replay](GATE0-TR46-REGEX-PROVENANCE.md) reproduce the locked npm data bytes from pinned Unicode inputs.
 - [PSL source identity](GATE0-PSL-PROVENANCE.md) ties tagged `tldts` to a pinned gitlink and byte-identical npm trie.
 
-**Policy to approve later, not implemented by this review:** accept hostnames, not URLs; reject IPs, localhost, malformed or ambiguous hosts with `UNSUPPORTED`; use explicit nontransitional UTS #46 checks; compute registrable domains using known ICANN/PRIVATE suffixes; do not treat a successfully normalized IDN or an unknown suffix as proof that a website is safe or malicious. Domain registrability at a live registry is outside scope.
+**Policy recommended for later design acceptance (not implemented by this review):** accept hostnames, not URLs; reject IPs, localhost, malformed or ambiguous hosts with `UNSUPPORTED`; use explicit nontransitional UTS #46 checks; compute registrable domains using known ICANN/PRIVATE suffixes; do not treat a successfully normalized IDN or an unknown suffix as proof that a website is safe or malicious. Domain registrability at a live registry is outside scope.
 
-**Remaining ADR-0002 decision:** formal maintainer review and acceptance (or amendment). The Gate 0 comparison is limited, not a full IDNA/PSL conformance suite; implementation-time conformance and false-positive tests remain M0 tasks.
+**Historical ADR-0002 decision question:** formal maintainer review and acceptance (or amendment), staged separately in PR #13. The Gate 0 comparison is limited, not a full IDNA/PSL conformance suite; implementation-time conformance and false-positive tests remain M0 tasks.
 
 ## 2. Recommendation: ADR-0003 (version-pinned standards data)
 
@@ -46,7 +50,7 @@ The existing [Gate 0-03C](GATE0-PSL-PROVENANCE.md) trace verifies the immutable 
 
 | Risk / hold | Blocks now | Next minimal action |
 |---|---|---|
-| **ADR owner sign-off** | Accepting ADR-0002/0003; authorizing M0-01 | Maintainer reviews this evidence and records an explicit Accepted/Amended/Rejected decision in a separate PR |
+| **Design acceptance vs M0 start** | Design acceptance is proposed in PR #13; M0-01 remains blocked afterward | Review PR #13 explicitly, then address Gate 0 closeout and internal M0-01 authorization in a separate decision |
 | **Unicode helper package notice** | Claiming full third-party-notice clearance for the Gate 0 tooling and any distribution that includes it | Resolve `@unicode/unicode-18.0.0@2.0.7` MIT copyright/license text from a trusted origin; note that this package is **Gate 0 tooling only**, not in the candidate M0 runtime graph |
 | **Unicode/PSL redistribution notices** | Any public distribution of bundled data or derived trie without a reviewed notice strategy | Decide treatment of Unicode-3.0 and MPL-2.0 sources, preserve upstream notices, verify final artifact contents |
 | **Repository source license** | Declaring the already-public source legally reusable under a chosen open-source license or calling publication clearance complete | Explicit maintainer choice of root `LICENSE`, if any; review branding/name status separately |
@@ -61,8 +65,8 @@ The [license evidence report](GATE0-LICENSE-EVIDENCE.md) identifies actual packa
 
 ## 6. Stop/go recommendation and next bounded unit
 
-**Gate 0-06 evidence readiness: PASS as a review package; Gate 0 overall: OPEN.** No authorization has been granted to implement M0. ADR-0002 and ADR-0003 stay Proposed in their source files and in `docs/DECISIONS.md`.
+**Gate 0-06 evidence readiness: PASS as a review package; Gate 0 overall: OPEN.** No authorization has been granted to implement M0. ADR-0002 and ADR-0003 were Proposed at this report's baseline. Their design-acceptance changes are staged in PR #13; no M0 start is authorized by that PR.
 
-Next bounded action: **record explicit maintainer decisions** on ADR-0002/0003 and the disposition of license/notice blockers, in a separate scope-checked PR. Do not conflate a decision to start *internal* M0 development with permission to distribute binaries or derived data. If the decision owner cannot approve, keep Gate 0 blocked and work only on the specific blocking evidence.
+Next bounded action after this historical review: obtain explicit maintainer disposition of draft PR #13; after any acceptance, separately evaluate Gate 0 closeout and internal M0-01 start. Preserve unresolved license/notice publication blockers. Do not conflate a decision to start *internal* M0 development with permission to distribute binaries or derived data. If the decision owner cannot approve, keep Gate 0 blocked and work only on the specific blocking evidence.
 
 All work must continue via RED → GREEN → verification → feature branch commit → PR CI/review → exact-head squash merge; release/deployment remain out of scope.

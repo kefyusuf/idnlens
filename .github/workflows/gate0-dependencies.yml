@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - 'spike/gate0-*'
+      - 'decision/gate0-adr-*'
 
 permissions:
   contents: read
@@ -31,3 +32,5 @@ jobs:
         run: node --test spikes/gate0/idna-dependencies.test.mjs spikes/gate0/dependency-provenance.test.mjs
       - name: Verify Gate 0 decision readiness and no-go boundaries
         run: node --test spikes/gate0/decision-readiness.test.mjs
+      - name: Verify staged M0 architectural ADR acceptance boundaries
+        run: node --test spikes/gate0/adr-acceptance-proposal.test.mjs
