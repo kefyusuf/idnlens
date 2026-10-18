@@ -53,6 +53,7 @@ test('review scope isolates M0-01 implementation evidence from later milestones 
   assert.match(document, /M0-02.*PSL/u);
   assert.match(document, /M0-03.*UTS #39/u);
   assert.match(document, /ADR-0004.*M0-04/u);
+  assert.match(document, /ADR-0006, ADR-0007 and ADR-0008 remain Proposed for M1/u);
   assert.match(document, /## Publication holds remain separate/u);
   assert.match(document, /Unicode.*PSL/u);
   assert.match(document, /no Chrome extension/u);
