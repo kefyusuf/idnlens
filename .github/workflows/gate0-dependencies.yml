@@ -31,6 +31,6 @@ jobs:
       - name: Run dependency and provenance tests
         run: node --test spikes/gate0/idna-dependencies.test.mjs spikes/gate0/dependency-provenance.test.mjs
       - name: Verify Gate 0 decision readiness and no-go boundaries
-        run: node --test spikes/gate0/decision-readiness.test.mjs
+        run: node --test spikes/gate0/decision-readiness.test.mjs spikes/gate0/closeout-review.test.mjs
       - name: Verify staged M0 architectural ADR acceptance boundaries
         run: node --test spikes/gate0/adr-acceptance-proposal.test.mjs
