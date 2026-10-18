@@ -117,7 +117,7 @@ Never use an arbitrary continuous `risk score` in the first version. Explain dis
 ## 11. Dependencies and assumptions
 
 - UTS #39 confusables and script data must be pinned, reviewed and license-noticed; see ADR-0003.
-- IDNA/UTS #46 library and PSL implementation must be selected by a short license/behavior spike, not by popularity alone.
+- The Gate 0 spike evaluated pinned `tr46@7.0.0` for strict IDNA/UTS #46 and `tldts@7.4.18` for later PSL parsing. ADR-0002/0003 accept their **design policy**, not their internal implementation authorization or redistribution; selection for M0-01 internal use remains a separate maintainer decision.
 - A small protected-domain catalog will be curated, reviewed and versioned for M1. M0 injects fixtures; no remote feeds.
 - Chrome MV3 permission surface is limited to `webNavigation`, `storage` (if needed for `storage.session`) and `action`; actual manifest must be tested for the smallest viable set.
 - Browser native IDN defenses are a baseline to test against, not to assume absent.
@@ -132,8 +132,20 @@ Never use an arbitrary continuous `risk score` in the first version. Explain dis
 
 ## 13. Open questions (explicit decision gates)
 
-- Exact IDNA implementation and Unicode dataset versions: decide in M0 dependency spike.
-- Handling private PSL domains: define and lock behavior before implementation; default = unresolved/unsupported when uncertain.
+- Gate 0 pinned the IDNA candidate `tr46@7.0.0` and Unicode 18.0.0 input evidence; the separate decision to permit **internal M0-01 use** remains pending. This is not a new candidate search or an implementation claim.
+- ICANN and PRIVATE suffix support follows ADR-0002's accepted design; unknown suffixes remain unsupported. PSL integration, `tldts@7.4.18` candidate adoption for M0-02, and its implementation fixtures are **not** part of M0-01.
 - Protected catalog seed contents and verification process: decide before M1, not during M0.
 - UI languages and public license: decide prior to public beta.
 - Firefox interoperability and pre-navigation intervention: later studies, not v0.1 features.
+
+## M0-01 scope and design-review preparation
+
+**Review status: PREPARED, not signed off.** ADR-0001, ADR-0002, and ADR-0003 are `Accepted` as **design decisions only** through PR #13. Gate 0 remains OPEN and M0-01 remains NOT AUTHORIZED. PRD scope/security signoff, selection of the locked normalization candidate for internal use (pending maintainer approval), and a separate Gate 0 closeout/start decision are still required.
+
+**The first slice is hostname-only normalization**, not the full `analyzeDomain()` contract and not a phishing verdict. Use the already evaluated `tr46@7.0.0` strict nontransitional UTS #46 policy as the proposed internal-only candidate: validate non-string/empty/oversize input, malformed or invalid A-labels, userinfo, paths, URLs and ports, IP literals and localhost, joiner/bidi restrictions; normalize case, Unicode and Punycode/A-label spellings, and trailing root dots according to frozen fixtures. Preserve deterministic unsupported results instead of treating input as safe.
+
+**Milestone boundary:** M0-02 owns PSL/eTLD+1 parsing (ICANN and PRIVATE suffix policy is recorded in ADR-0002); M0-03 owns UTS #39 script and confusable skeletons; later M0 tasks own classification, protected catalog and complete evidence schemas. No Chrome extension, browser worker, network service, data feed, telemetry, dynamic dependency upgrade, or distributed artifact is introduced by this review.
+
+**Security evidence to require before implementation acceptance:** hostile hostname and length fixtures for T06/T08, network-free runtime and synthetic-only test data for T09, and exact lockfile/provenance verification for T10. The [threat model](THREAT-MODEL.md) lists these proposed controls. The maintainer must review and approve the relevant PRD/threat model assumptions before any GO decision; test plans alone are not approval.
+
+**Distribution remains separately blocked:** Unicode and PSL data licensing, third-party notices and the repository's root license are not resolved by internal scope preparation.
