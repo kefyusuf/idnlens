@@ -25,7 +25,7 @@ This is sufficient to **prepare a bounded internal implementation decision**, no
 2. **Internal dependency decision:** Explicitly approve or reject `tr46@7.0.0` as a **version-locked candidate for internal M0-01 implementation**, with existing strict nontransitional UTS #46 policy. `tldts@7.4.18` is a researched candidate for **M0-02**, not an M0-01 implementation requirement. Neither decision constitutes final shipping/redistribution clearance.
 3. **Separate Gate 0 closeout and M0-01 start authorization:** Record the maintainer's explicit Go/No-Go scope, the gate's completion disposition, and permission to begin *only* M0-01. The current [machine-readable readiness record](GATE0-DECISION-READINESS.json) stays `OPEN` with `m0Authorized: false` and `authorizationBoundary.internalM0.authorized: false` until then. A generic continuation instruction or green CI is **not** this decision.
 
-Remaining `Proposed` decisions ADR-0004/0005 concern classification and protected-catalog work (M0-04 and later), not the normalization-only first slice. Review them before their affected work; do not silently treat them as accepted today.
+ADR-0004 and ADR-0005 remain Proposed for M0-04 classification and later protected-catalog work, not the normalization-only first slice. ADR-0006, ADR-0007 and ADR-0008 remain Proposed for M1 browser behavior and permissions. Review each before its affected work; none is accepted by this Gate 0 assessment.
 
 ## M0-01 only: first TDD slice
 
