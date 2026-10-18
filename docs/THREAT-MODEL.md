@@ -71,6 +71,23 @@ Trust boundaries:
 - [ ] Verify stale-navigation handling after redirect, refresh, worker suspension and rapid tab reuse.
 - [ ] Have an independent reviewer sign off on release notes and truthful security claims.
 
+## M0-01 security-review preparation
+
+**Review status: PREPARED, not maintainer-approved.** Gate 0 remains OPEN and M0-01 remains NOT AUTHORIZED; the maintainer review remains pending. This is a scoped technical assessment of the accepted ADR-0001/0002/0003 architecture, not formal signoff or evidence of an implemented detector.
+
+The M0-01 trust boundary begins with an **untrusted hostname-only string** passed to a synchronous, deterministic offline normalizer. There is no browser URL parser, tab state, catalog, PSL/eTLD+1 selection, UTS #39 lookalike classifier, telemetry, or UI in this first slice.
+
+| Threat | M0-01-specific risk and proposed verification | Responsibility / limit |
+|---|---|---|
+| T06 | Reject IP literals, localhost, incomplete/invalid labels and hostname inputs containing URLs, userinfo, ports or paths; do not silently classify such inputs as harmless | Host syntax boundary in M0-01; public/private/unknown PSL suffix classification belongs to M0-02 |
+| T08 | Bound long and pathological Unicode inputs before processing; include invalid A-label, joiner, bidi, unpaired-surrogate, overlong label and repeatability tests, with explicit unsupported failures | M0-01 hostname validation; broader property/performance security testing remains M0-06 |
+| T09 | Assert no runtime network, browser API, remote lookup, telemetry or visited-host logging in the normalization module; use only synthetic fixture inputs | M0-01 pure module; M1 navigation privacy and storage analysis are later gates; CI-only npm registry access is not runtime behavior |
+| T10 | Verify pinned dependency lockfile and source provenance for `tr46@7.0.0`, strict nontransitional flags and deterministic offline checks; review any version change separately | Gate 0 evidence can support an internal candidate decision, not approve production shipping, source licensing or future dependency updates |
+
+The M0-01 RED→GREEN slice must prove both valid Unicode/A-label round trips and rejection cases without generating `SAFE` or `MALICIOUS` outcomes. The accepted policy does **not** mean implementation exists. T01–T03 Unicode confusable detection, T05 PSL identity handling, T04/T07/T13 popup/worker risks, catalog decisions and any phishing claim stay with their later milestones.
+
+**Residual review questions:** confirm strict normalization flags and hostile-input limits with the maintainer; explicitly accept or reject internal candidate use; and record a *separate* Gate 0 closeout/M0-01 GO or NO-GO. Preserve the existing third-party Unicode/PSL notices and root-license publication holds. No extension or distribution is authorized by this document.
+
 ## 7. Unsupported risks
 
 Credential-stealing sites on ordinary ASCII domains, compromised genuine sites, phishing inside subdomains that are not IDN confusables, visually similar logos/content, malicious downloads, transport attacks, QR-based phishing, IDNs outside supported data/version, and deceptive email senders are **not handled**.
